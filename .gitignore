@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ZzaDashboard/packages/EntityFramework.6.1.3/tools
+/ZzaDashboard/Zza.Data/bin/Debug
+/ZzaDashboard/ZzaDashboard/bin/Debug
+/ZzaDashboard/ZzaDashboard/obj/Debug
+/ZzaDashboard/Zza.Data/obj/Debug
+/ZzaDashboard/packages/EntityFramework.6.1.3
+/ZzaDashboard/.vs/ZzaDashboard/v16
+/.vs
