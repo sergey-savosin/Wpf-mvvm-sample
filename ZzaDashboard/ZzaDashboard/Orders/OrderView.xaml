@@ -7,6 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-		<TextBlock Text="Order view" />
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="Размещается заказ для Покупателя: "/>
+			<TextBlock Text="{Binding CustomerId}" />
+		</StackPanel>
 	</Grid>
 </UserControl>
