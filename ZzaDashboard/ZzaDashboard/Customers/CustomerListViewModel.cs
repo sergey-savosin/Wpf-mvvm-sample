@@ -13,15 +13,17 @@ namespace ZzaDashboard.Customers
 	{
 		private ICustomersRepository _repo;
 		private ObservableCollection<Customer> _customers;
+		private string _SearchInput;
+		private List<Customer> _allCustomers;
 
 		public RelayCommand<Customer> PlaceOrderCommand { get; private set; }
 		public RelayCommand AddCustomerCommand { get; private set; }
 		public RelayCommand<Customer> EditCustomerCommand { get; private set; }
+		public RelayCommand ClearSearchCommand { get; private set; }
 
 		public event Action<Guid> PlaceOrderRequested = delegate { };
 		public event Action<Customer> AddCustomerRequested = delegate { };
 		public event Action<Customer> EditCustomerRequested = delegate { };
-
 
 		public CustomerListViewModel(ICustomersRepository repo)
 		{
@@ -29,6 +31,7 @@ namespace ZzaDashboard.Customers
 			PlaceOrderCommand = new RelayCommand<Customer>(OnPlaceOrder);
 			AddCustomerCommand = new RelayCommand(OnAddCustomer);
 			EditCustomerCommand = new RelayCommand<Customer>(OnEditCustomer);
+			ClearSearchCommand = new RelayCommand(OnClearSearch);
 		}
 
 		public ObservableCollection<Customer> Customers
@@ -37,10 +40,34 @@ namespace ZzaDashboard.Customers
 			set { SetProperty(ref _customers, value); }
 		}
 
+		public string SearchInput
+		{
+			get { return _SearchInput; }
+			set
+			{
+				SetProperty(ref _SearchInput, value);
+				FilterCustomers(_SearchInput);
+			}
+		}
+
 		public async void LoadCustomers()
 		{
-			Customers = new ObservableCollection<Customer>(
-				await _repo.GetCustomersAsync());
+			_allCustomers = await _repo.GetCustomersAsync();
+			Customers = new ObservableCollection<Customer>(_allCustomers);
+		}
+
+		private void FilterCustomers(string searchInput)
+		{
+			if (string.IsNullOrWhiteSpace(searchInput))
+			{
+				Customers = new ObservableCollection<Customer>(_allCustomers);
+				return;
+			}
+			else
+			{
+				Customers = new ObservableCollection<Customer>(
+					_allCustomers.Where(c => c.FullName.ToLower().Contains(searchInput.ToLower())));
+			}
 		}
 
 		private void OnPlaceOrder(Customer customer)
@@ -56,6 +83,11 @@ namespace ZzaDashboard.Customers
 		private void OnEditCustomer(Customer cust)
 		{
 			EditCustomerRequested(cust);
+		}
+
+		private void OnClearSearch()
+		{
+			SearchInput = null;
 		}
 	}
 }

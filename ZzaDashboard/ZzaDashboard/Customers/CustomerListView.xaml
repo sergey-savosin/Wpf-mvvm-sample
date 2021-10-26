@@ -21,6 +21,12 @@
 			<Button Content="Добавить Покупателя"
 					Command="{Binding AddCustomerCommand}"
 					HorizontalAlignment="Left"/>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+				<Label Content="Поиск:"/>
+				<TextBox Text="{Binding SearchInput, UpdateSourceTrigger=PropertyChanged}"
+						 Width="150" />
+				<Button Content="X" Command="{Binding ClearSearchCommand}" />
+			</StackPanel>
 		</Grid>
 		<DataGrid ItemsSource="{Binding Customers}"
 				  AutoGenerateColumns="False"

@@ -74,12 +74,30 @@ namespace ZzaDashboard.Customers
 
 		private async void OnSave()
 		{
+			UpdateCustomer(Customer, _editingCustomer);
+			if (EditMode)
+			{
+				await _repo.UpdateCustomerAsync(_editingCustomer);
+			}
+			else
+			{
+				await _repo.AddCustomerAsync(_editingCustomer);
+			}
+
 			Done();
 		}
 
 		private bool CanSave()
 		{
 			return !Customer.HasErrors;
+		}
+
+		private void UpdateCustomer(SimpleEditableCustomer source, Customer target)
+		{
+			target.FirstName = source.FirstName;
+			target.LastName = source.LastName;
+			target.Phone = source.Phone;
+			target.Email = source.Email;
 		}
 	}
 }

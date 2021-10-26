@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zza.Data;
 using ZzaDashboard.Customers;
 using ZzaDashboard.OrderPrep;
 using ZzaDashboard.Orders;
-using ZzaDashboard.Services;
+
+using Unity;
 
 namespace ZzaDashboard
 {
@@ -17,15 +14,15 @@ namespace ZzaDashboard
 		private OrderPrepViewModel _orderPrepViewModel = new OrderPrepViewModel();
 		private CustomerListViewModel _customerListViewModel;
 		private AddEditCustomerViewModel _addEditViewModel;
-		private ICustomersRepository _repo = new CustomersRepository();
 		private BindableBase _CurrentViewModel;
 
 		public MainWindowViewModel()
 		{
 			NavCommand = new RelayCommand<string>(OnNav);
 
-			_customerListViewModel = new CustomerListViewModel(_repo);
-			_addEditViewModel = new AddEditCustomerViewModel(_repo);
+			_customerListViewModel = ContainerHelper.Container.Resolve<CustomerListViewModel>();
+			_addEditViewModel = ContainerHelper.Container.Resolve<AddEditCustomerViewModel>();
+
 			_customerListViewModel.PlaceOrderRequested += NavToOrder;
 			_customerListViewModel.AddCustomerRequested += NavToAddCustomer;
 			_customerListViewModel.EditCustomerRequested += NavToEditCustomer;
