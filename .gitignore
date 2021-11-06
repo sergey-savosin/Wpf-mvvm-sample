@@ -12,3 +12,5 @@
 /.vs
 /ZzaDashboard/packages/Microsoft.Xaml.Behaviors.Wpf.1.1.37
 /ZzaDashboard/packages
+/ZzaDashboard/ZzaDashboard/obj/Release
+/ZzaDashboard/Zza.Data/obj/Release
